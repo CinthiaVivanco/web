@@ -4,15 +4,18 @@
     <thead>
       <tr>
         <th class= 'center tabladp' colspan='3'>DATOS</th>        
-        <th class= 'center tablaho' colspan='2'>PRECIO REGULAR</th>        
+        <th class= 'center tablaho' colspan='4'>PRECIO</th>        
       </tr>
 
       <tr>
         <th class= 'tabladp'>ID</th>        
         <th class= 'tabladp'>CLIENTE</th>
         <th class= 'tabladp'>PRODUCTO</th>
-        <th class= 'center tablaho'>DEPART.</th>        
-        <th class= 'center tablaho'>PRECIO</th>        
+        <th class= 'center tablaho'>DEPARTAMENTO</th>              
+        <th class= 'center tablaho'>PRECIO REGULAR</th> 
+        <th class= 'center tablaho'>DESCUENTO</th>
+        <th class= 'center tablaho'>PRECIO TOTAL</th> 
+
       </tr>
     </thead>
     <tbody>
@@ -37,13 +40,30 @@
                   @endforeach
                 </td>
 
-                <td class='right negrita'>
+                <td class='left negrita columna_marcada1'>
                       S/. {{$funcion->funciones->calculo_precio_regular($item_c,$item)}}
                       @foreach($lista_precio_regular_departamento as $index_pr => $item_pr) 
                       <br>
                       S/. {{number_format($item_pr->descuento, 2, '.', ',')}}
                       @endforeach
                 </td>
+
+                <td class='left negrita'>
+                      S/. {{$funcion->funciones->descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,'')}}
+                      @foreach($lista_precio_regular_departamento as $index_pr => $item_pr) 
+                      <br>
+                      S/. {{$funcion->funciones->descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,$item_pr->departamento_id)}}
+                      @endforeach
+                </td>
+
+                <td class='left negrita'>
+                      S/. {{$funcion->funciones->precio_descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,'')}}
+                      @foreach($lista_precio_regular_departamento as $index_pr => $item_pr) 
+                      <br>
+                      S/. {{$funcion->funciones->precio_descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,$item_pr->departamento_id)}}
+                      @endforeach
+                </td>
+
 		        </tr>
             @endforeach       
 	  	@endforeach

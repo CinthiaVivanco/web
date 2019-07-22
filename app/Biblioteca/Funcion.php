@@ -52,6 +52,34 @@ class Funcion{
 
 
 
+	public function descuento_reglas_producto($contrato_id,$producto_id,$cliente_id,$departamento_id) {
+
+		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.descuento_regla_producto_contrato ?,?,?,?');
+        $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
+        $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
+        $stmt->bindParam(3, $cliente_id ,PDO::PARAM_STR);
+        $stmt->bindParam(4, $departamento_id ,PDO::PARAM_STR); 
+        $stmt->execute();
+        $resultado = $stmt->fetch();
+		return  $resultado['descuento'];
+			 			
+	}
+
+
+	public function precio_descuento_reglas_producto($contrato_id,$producto_id,$cliente_id,$departamento_id) {
+
+		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?');
+        $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
+        $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
+        $stmt->bindParam(3, $cliente_id ,PDO::PARAM_STR);
+        $stmt->bindParam(4, $departamento_id ,PDO::PARAM_STR); 
+        $stmt->execute();
+        $resultado = $stmt->fetch();
+		return  $resultado['precio'];
+			 			
+	}
+
+
 
 	public function lista_reglas_cliente($contrato_id,$producto_id) {
 

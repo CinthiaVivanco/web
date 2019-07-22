@@ -2,13 +2,8 @@
 
 namespace App\Console;
 
-use App\Console\Commands\EmailCumpleanios;
-use App\Console\Commands\RefrigerioDosTarde;
-use App\Console\Commands\RefrigerioTresMedia;
-use App\Console\Commands\SalidaDobleTurno;
-use App\Console\Commands\RefrigerioNoche;
-
-
+use App\Console\Commands\DesactivarReglas;
+use App\Console\Commands\RedesSociales;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -20,11 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        EmailCumpleanios::class,
-        RefrigerioDosTarde::class,
-        RefrigerioTresMedia::class,
-        SalidaDobleTurno::class,
-        RefrigerioNoche::class
+        DesactivarReglas::class,
+        RedesSociales::class
     ];
 
     /**
@@ -35,13 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->command('trabajador:cumpleanios')->dailyAt('17:40');
-        $schedule->command('refrigeriodostarde:actualizarrefrigeriodostarde')->dailyAt('14:50');
-        $schedule->command('refrigeriotresmedia:actualizarrefrigeriotresmedia')->dailyAt('16:00');
-
-        $schedule->command('salidadobleturno:actualizarsalidadobleturno')->dailyAt('14:00');
-        $schedule->command('refrigerionoche:actualizarrefrigerionoche')->dailyAt('23:00');
-
+        //$schedule->command('desactivarreglas:desactivarreglasContrato')->everyMinute(); // CADA MINUTO
+        //$schedule->command('redessociales:publicidadredessociales')->everyMinute();
     }
 
     /**

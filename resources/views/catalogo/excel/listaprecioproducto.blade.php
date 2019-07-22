@@ -13,14 +13,16 @@
         </tr>
         <tr>
             <th class= 'center tabladp' colspan="2">DATOS</th>
-            <th class= 'center tablaho' colspan="2">PRECIO REGULAR</th>  
+            <th class= 'center tablaho' colspan="4">PRECIO</th>  
         </tr>
 
         <tr>
             <th class= 'tabladp'>CLIENTE</th>
             <th class= 'tabladp'>PRODUCTO</th>
             <th class= 'center tablaho'>DEPARTAMENTO</th>              
-            <th class= 'center tablaho'>PRECIO</th>  
+            <th class= 'center tablaho'>PRECIO REGULAR</th> 
+            <th class= 'center tablaho'>DESCUENTO</th>
+            <th class= 'center tablaho'>PRECIO TOTAL</th> 
         </tr>
 
         @foreach($listacliente as $index_c => $item_c) 
@@ -40,8 +42,17 @@
                 <tr>
                     <td width="50" class='{{$color}}'> {{$item_c->NOM_EMPR}}</td>
                     <td width="50" class='{{$color}}'>{{$item->NOM_PRODUCTO}}</td>
-                    <td width="20" class='negrita {{$color}}'>OTROS</td> 
-                    <td width="20" class='negrita {{$color}}'>S/. {{$funcion->funciones->calculo_precio_regular($item_c,$item)}}</td>                           
+                    <td width="20" class='negrita {{$color}}'>OTROS</td>
+                    <td width="20" class='negrita {{$color}}'>
+                        S/. {{$funcion->funciones->calculo_precio_regular($item_c,$item)}}
+                    </td>
+                    <td width="20" class='negrita {{$color}}'>
+                        S/. {{$funcion->funciones->descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,'')}}
+                    </td>
+                    <td width="20" class='negrita {{$color}}'>
+                        S/. {{$funcion->funciones->precio_descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,'')}}
+                    </td> 
+
                 </tr>
                 @foreach($lista_precio_regular_departamento as $index_pr => $item_pr)
                 <tr>
@@ -49,6 +60,12 @@
                     <td width="50" class='{{$color}}'>{{$item->NOM_PRODUCTO}}</td>
                     <td width="20" class='negrita {{$color}}'>{{$funcion->funciones->departamento($item_pr->departamento_id)->NOM_CATEGORIA}}</td> 
                     <td width="20" class='right negrita {{$color}}'> S/. {{number_format($item_pr->descuento, 2, '.', ',')}}</td>
+                    <td width="20" class='right negrita {{$color}}'> 
+                        S/. {{$funcion->funciones->descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,$item_pr->departamento_id)}}
+                    </td>
+                    <td width="20" class='right negrita {{$color}}'> 
+                        S/. {{$funcion->funciones->precio_descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,$item_pr->departamento_id)}}
+                    </td>
                 </tr>     
                 @endforeach  
 
