@@ -611,11 +611,22 @@ class Funcion{
 		}else{
 
 		
+
+
+        	$cod_centro 		= 	Session::get('centros')->COD_CENTRO;
+        	$cod_empresa 		= 	Session::get('empresas')->COD_EMPR;
+        	$fecha_actual 	    = 	date('Y-m-d H:i');
+
 			$lista_activas 		= 	WEBRegla::where('activo','=',1)
 									->where('tiporegla','=',$tipo)
 									->where('estado','=','PU')
-									->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
-	    							->where('centro_id','=',Session::get('centros')->COD_CENTRO)									
+									->where('empresa_id','=',$cod_empresa)
+	    							->where('centro_id','=',$cod_centro)
+	    							->whereRaw('Convert(varchar(16), fechainicio, 120) <= ?', [$fecha_actual])
+	    							->where(function ($query) use ($fecha_actual) {
+									    $query->whereRaw('Convert(varchar(16), fechafin, 120) >= ?', [$fecha_actual])
+									          ->orWhere('fechafin', '=', '1900-01-01 00:00:00.000');
+									})
 									->select('id', DB::raw("(nombre + ' ' + CASE WHEN tipodescuento = 'POR' THEN '%' WHEN tipodescuento = 'IMP' THEN 'S/.' END  + CAST(descuento AS varchar(100)) ) AS nombre"))
 									->pluck('nombre','id')
 									->toArray();

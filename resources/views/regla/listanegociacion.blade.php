@@ -28,6 +28,7 @@
                         <th>Acción</th>
                         <th>Monto</th>
                         <th>Utilizada</th>
+                        <th>Fecha inicio</th>
                         <th>Fecha de expiración</th>
                         <th>Departamento</th>
 
@@ -62,7 +63,7 @@
                           <td>
                             <span class="badge badge-default">{{$item->cantidadutilizada}}</span>
                           </td>
-
+                          <td>{{date_format(date_create($item->fechainicio), 'd-m-Y H:i')}}</td>
                           <td>
                             @if($item->fechafin == $fechavacia) 
                               <span class="badge badge-default">ilimitado</span> 

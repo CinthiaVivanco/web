@@ -47,15 +47,15 @@ var App = (function () {
 
     $("#tablenegociaciones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 5, "asc" ]],
+        order : [[ 6, "asc" ]],
     });
     $("#tablecupones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 9, "asc" ]],
+        order : [[ 10, "asc" ]],
     });
     $("#tableprecios").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 5, "asc" ]],
+        order : [[ 6, "asc" ]],
     });
 
 

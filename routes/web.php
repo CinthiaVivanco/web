@@ -152,7 +152,10 @@ Route::group(['middleware' => ['authaw']], function () {
         return \Response::json($valid_tags);
     });
 
+
+
    	Route::any('/enviocorreos', 'CorreoController@enviocorreo');
+   	Route::any('/pruebaquery', 'PruebaController@pruebas');
 
 });
 

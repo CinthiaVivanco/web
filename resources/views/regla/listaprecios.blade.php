@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Lista de Precios
+                <div class="panel-heading">Lista de Reglas (Precio del producto)
                   <div class="tools">
                     <a href="{{ url('/agregar-regla-precio/'.$idopcion) }}" data-toggle="tooltip" data-placement="top" title="Crear Descuento del producto">
                       <span class="icon mdi mdi-plus-circle-o"></span>
@@ -28,6 +28,7 @@
                         <th>Acción</th>
                         <th>Monto</th>
                         <th>Utilizada</th>
+                        <th>Fecha inicio</th>
                         <th>Fecha de expiración</th>
                         <th>Departamento</th>
 
@@ -64,7 +65,7 @@
                           <td>
                             <span class="badge badge-default">{{$item->cantidadutilizada}}</span>
                           </td>
-
+                          <td>{{date_format(date_create($item->fechainicio), 'd-m-Y H:i')}}</td>
                           <td>
                             @if($item->fechafin == $fechavacia) 
                               <span class="badge badge-default">ilimitado</span> 

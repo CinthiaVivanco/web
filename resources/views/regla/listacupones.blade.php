@@ -31,9 +31,8 @@
                         <th>Utilizada</th>
                         <th>Total disponible</th>
                         <th>Cada usuario</th>
-
                         <th>Departamento</th>
-
+                        <th>Fecha inicio</th>
                         <th>Fecha de expiración</th>
                         <th>Estado</th>
                         <th>Opción</th>
@@ -93,7 +92,7 @@
                           </td>
 
 
-
+                          <td>{{date_format(date_create($item->fechainicio), 'd-m-Y H:i')}}</td>
                           <td>
                             @if($item->fechafin == $fechavacia) 
                               <span class="badge badge-default">ilimitado</span> 
