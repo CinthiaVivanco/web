@@ -140,8 +140,8 @@ Route::group(['middleware' => ['authaw']], function () {
         $term = $request->term ?: '';
         $tags = App\WEBPrecioProducto::join('WEB.LISTAPRODUCTOSAVENDER', 'COD_PRODUCTO', '=', 'producto_id')
         								->where('NOM_PRODUCTO', 'like', '%'.$term.'%')
-										//->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
-										//->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+										->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+										->where('centro_id','=',Session::get('centros')->COD_CENTRO)
 										->take(100)
 										->pluck('NOM_PRODUCTO','producto_id');
 
@@ -152,7 +152,7 @@ Route::group(['middleware' => ['authaw']], function () {
         return \Response::json($valid_tags);
     });
 
+   	Route::any('/enviocorreos', 'CorreoController@enviocorreo');
 
 });
 
-	Route::any('/pruebas', 'UserController@pruebas');

@@ -25,7 +25,15 @@
                       <tr>
                         <th>Nombre</th>
                         <th>Cupon</th>
-                        <th>Cantidad</th>
+                        <th>Codigo</th>
+                        <th>Acción</th>
+                        <th>Monto</th>
+                        <th>Utilizada</th>
+                        <th>Total disponible</th>
+                        <th>Cada usuario</th>
+
+                        <th>Departamento</th>
+
                         <th>Fecha de expiración</th>
                         <th>Estado</th>
                         <th>Opción</th>
@@ -37,13 +45,55 @@
                         <tr>
                           <td>{{$item->nombre}}</td>
                           <td>{{$item->cupon}}</td>
+                          <td>{{$item->codigo}}</td>
+
                           <td>
-                            @if($item->cantidadminima == 0) 
-                              <span class="badge badge-default">ilimitado</span> 
+                            @if($item->descuentoaumento == 'DS') 
+                              <span class="badge badge-danger">Descuento</span> 
                             @else 
-                              <span class="badge badge-default">{{$item->cantidadminima}}</span>
+                              <span class="badge badge-primary">Aumento</span>
                             @endif
                           </td>
+                          
+                          <td>
+
+                            @if($item->tipodescuento == 'POR') 
+                              %
+                            @else 
+                              S/.
+                            @endif
+                            {{number_format($item->descuento, 4, '.', ',')}}
+                          </td>
+                          <td>
+                            <span class="badge badge-default">{{$item->cantidadutilizada}}</span>
+                          </td>
+                          <td>
+
+                            @if($item->totaldisponible == 0) 
+                              <span class="badge badge-default">ilimitado</span> 
+                            @else 
+                              <span class="badge badge-default">{{$item->totaldisponible}}</span>
+                            @endif
+
+                          </td>
+                          <td>
+                            @if($item->totalcadacuenta == 0) 
+                              <span class="badge badge-default">ilimitado</span> 
+                            @else 
+                              <span class="badge badge-default">{{$item->totalcadacuenta}}</span>
+                            @endif
+                          </td>
+
+                          <td>
+                            @if($item->departamento_id == '') 
+                              <span class="badge badge-default">TODOS</span> 
+                            @else 
+                              <span class="badge badge-danger">{{$funcion->funciones->departamento($item->departamento_id)->NOM_CATEGORIA}}</span>
+                            @endif
+                          </td>
+
+
+
                           <td>
                             @if($item->fechafin == $fechavacia) 
                               <span class="badge badge-default">ilimitado</span> 
@@ -64,16 +114,7 @@
 
                           </td>
                           <td class="rigth">
-                            <div class="btn-group btn-hspace">
-                              <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Acción <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
-                              <ul role="menu" class="dropdown-menu pull-right">
-                                <li>
-                                  <a href="{{ url('/modificar-regla-cupon/'.$idopcion.'/'.Hashids::encode(substr($item->id, -8))) }}">
-                                    Modificar
-                                  </a>  
-                                </li>
-                              </ul>
-                            </div>
+
                           </td>
                         </tr>                    
                       @endforeach
@@ -100,7 +141,7 @@
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.print.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.colVis.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.bootstrap.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('public/js/app-tables-datatables.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('public/js/app-tables-datatables.js?v='.$version) }}" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         //initialize the javascript

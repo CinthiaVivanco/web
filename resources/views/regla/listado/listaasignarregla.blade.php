@@ -4,7 +4,7 @@
     <tr>
       <th class='center columna_1'>DATOS FILTRO</th>
       <th colspan="2" class='center columna_1'>PRECIO REGULAR</th>       
-      <th colspan="2" class='center columna_1'>REGLAS</th>                    
+      <th colspan="4" class='center columna_1'>REGLAS</th>                    
     </tr> 
 
     <tr>
@@ -14,8 +14,8 @@
 
       <th class='columna_2'>Precio Producto</th>
       <th class='columna_2 warning'>Nota Credito</th>
-      <!-- <th class='columna_2 danger'>Cupón</th>
-      <th class='columna_2 success'>Negociación</th> -->    
+      <th class='columna_2 danger'>Cupón</th>
+      <th class='columna_2 success'>Negociación</th>   
     </tr>
   </thead>
   <tbody class="no-border-x">
@@ -150,7 +150,7 @@
 
         </td>
 
-        <!--
+        
         <td class="relative">
 
             <div class='etcup{{$itemproducto->COD_PRODUCTO}}{{$item->id}}'
@@ -182,7 +182,7 @@
 
         </td>
 
-
+        
         <td class="relative">
 
             <div  class='etneg{{$itemproducto->COD_PRODUCTO}}{{$item->id}}'
@@ -214,7 +214,7 @@
             </span>
 
         </td>
-        -->
+        
         
       </tr>
       @endforeach

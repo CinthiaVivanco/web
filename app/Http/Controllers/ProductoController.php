@@ -297,13 +297,15 @@ class ProductoController extends Controller
 			$cabecera->cantidadminima 	=  	trim($request['cantidadminima']);
 			$cabecera->tipodescuento 	=  	'IMP';
 			$cabecera->descuento 		=  	trim($request['descuento']);
-			$cabecera->estado 			=  	trim($request['estado']);
+			$cabecera->estado 			=  	'PU';
+			$cabecera->descuentoaumento =  	'DS';
+			$cabecera->departamento_id 	=  	$request['departamento'];
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;
 			$cabecera->centro_id 		=   Session::get('centros')->COD_CENTRO;
 			$cabecera->save();
- 
+
 
  			return Redirect::to('/gestion-de-regla-de-negociacion/'.$idopcion)->with('bienhecho', 'Negociación '.$request['nombre'].' registrado con exito');
 
@@ -312,12 +314,15 @@ class ProductoController extends Controller
 
 			$fechaactual = $this->fechaactualinput;
 			$fechavacia  = $this->fechavacia;
+		    //combo departamentos
+			$combodepartamentos 		= 	$this->funciones->combo_departamentos();
 
 			return View::make('regla/agregarnegociacion',
 						[				
-							'fechaactual'  		=> $fechaactual,
-							'fechavacia'  		=> $fechavacia,	
-						  	'idopcion'  		=> $idopcion,
+							'fechaactual'  			=> $fechaactual,
+							'fechavacia'  			=> $fechavacia,
+						 	'combodepartamentos'	=> $combodepartamentos,
+						  	'idopcion'  			=> $idopcion,
 						]);
 		}
 	}
@@ -564,7 +569,9 @@ class ProductoController extends Controller
 			$cabecera->totalcadacuenta 	=  	trim($request['totalcadacuenta']);
 			$cabecera->tipodescuento 	=  	trim($request['tipodescuento']);
 			$cabecera->descuento 		=  	trim($request['descuento']);
-			$cabecera->estado 			=  	trim($request['estado']);
+			$cabecera->estado 			=  	'PU';
+			$cabecera->descuentoaumento =  	'DS';
+			$cabecera->departamento_id 	=  	$request['departamento'];
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;
@@ -580,10 +587,14 @@ class ProductoController extends Controller
 			$fechaactual = $this->fechaactualinput;
 			$fechavacia  = $this->fechavacia;
 
+		    //combo departamentos
+			$combodepartamentos 		= 	$this->funciones->combo_departamentos();
+
 			return View::make('regla/agregarcupon',
 						[				
 							'fechaactual'  		=> $fechaactual,
-							'fechavacia'  		=> $fechavacia,	
+							'fechavacia'  		=> $fechavacia,
+							'combodepartamentos'	=> 		$combodepartamentos,
 						  	'idopcion'  		=> $idopcion,
 						]);
 		}

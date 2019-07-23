@@ -589,13 +589,13 @@
   cursor: pointer;
   position: absolute;
   bottom: 6px;
-  right: 2px;
+  right: -5px;
 }
 
 .asignarregla .precio-regular-descuento{
   position: absolute;
   bottom: 28px;
-  right: 2px;
+  right: -5px;
 }
 
 .asignarregla .badge-defaul{
@@ -621,7 +621,7 @@
 }
 
 .columna_1 {
-    background: #bababa;
+    background: #eae8e8;
     color: #000;
 }
 .columna_2 {

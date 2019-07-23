@@ -27,9 +27,10 @@
                         <th>Codigo</th>
                         <th>Acción</th>
                         <th>Monto</th>
-                        <th>Cantidad</th>
                         <th>Utilizada</th>
                         <th>Fecha de expiración</th>
+                        <th>Departamento</th>
+
                         <th>Aplica</th>
                         <th>Estado</th>
                         <th>Opción</th>
@@ -49,6 +50,7 @@
                               <span class="badge badge-primary">Aumento</span>
                             @endif
                           </td>
+                          
                           <td>
 
                             @if($item->tipodescuento == 'POR') 
@@ -60,13 +62,6 @@
                           </td>
 
                           <td>
-                            @if($item->cantidadminima == 0) 
-                              <span class="badge badge-default">ilimitado</span> 
-                            @else 
-                              <span class="badge badge-default">{{$item->cantidadminima}}</span>
-                            @endif
-                          </td>
-                          <td>
                             <span class="badge badge-default">{{$item->cantidadutilizada}}</span>
                           </td>
 
@@ -75,6 +70,16 @@
                               <span class="badge badge-default">ilimitado</span> 
                             @else 
                               {{date_format(date_create($item->fechafin), 'd-m-Y H:i')}}
+                            @endif
+                          </td>
+
+                          <td>
+                            @if(trim($item->departamento_id) == '') 
+                              <span class="badge badge-default">TODOS</span> 
+                            @else 
+
+                              <span class="badge badge-danger">{{$funcion->funciones->departamento($item->departamento_id)->NOM_CATEGORIA}}</span>
+                              
                             @endif
                           </td>
 
@@ -141,7 +146,7 @@
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.print.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.colVis.js') }}" type="text/javascript"></script>
 	<script src="{{ asset('public/lib/datatables/plugins/buttons/js/buttons.bootstrap.js') }}" type="text/javascript"></script>
-	<script src="{{ asset('public/js/app-tables-datatables.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('public/js/app-tables-datatables.js?v='.$version) }}" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         //initialize the javascript

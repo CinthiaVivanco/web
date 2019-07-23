@@ -44,13 +44,18 @@ var App = (function () {
     });
 
 
+
+    $("#tablenegociaciones").dataTable({
+        "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
+        order : [[ 5, "asc" ]],
+    });
     $("#tablecupones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 3, "asc" ]],
+        order : [[ 9, "asc" ]],
     });
     $("#tableprecios").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 6, "asc" ]],
+        order : [[ 5, "asc" ]],
     });
 
 

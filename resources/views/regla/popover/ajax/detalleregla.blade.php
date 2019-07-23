@@ -95,17 +95,6 @@
 
 
 		<h4 class='po-regla-descripcion cantidadminima-po'>
-			<strong>Cantidad minima : </strong><small>
-		        @if($regla->cantidadminima == 0) 
-		          <span class="label label-default">ilimitado</span> 
-		        @else 
-		          <span class="badge badge-default">{{$regla->cantidadminima}}</span>
-		        @endif
-	        </small>
-		</h4>
-
-	
-		<h4 class='po-regla-descripcion cantidadminima-po'>
 			<strong>Total disponible : </strong><small>
 		        @if($regla->totaldisponible == 0) 
 		          <span class="label label-default">ilimitado</span> 
@@ -116,7 +105,7 @@
 		</h4>
 
 		<h4 class='po-regla-descripcion cantidadminima-po'>
-			<strong>Total disponible para cada usuario : </strong><small>
+			<strong>Cada usuario : </strong><small>
 		        @if($regla->totalcadacuenta == 0) 
 		          <span class="label label-default">ilimitado</span> 
 		        @else 
@@ -124,6 +113,17 @@
 		        @endif
 	        </small>
 		</h4>
+
+		<h4 class='po-regla-descripcion cantidadminima-po'>
+			<strong>Departamento Afecta: </strong><small>
+		        @if(trim($regla->departamento_id) == '') 
+		          <span class="label label-default">TODOS</span> 
+		        @else 
+		          <span class="badge badge-default">{{$funcion->funciones->departamento($regla->departamento_id)->NOM_CATEGORIA}}</span>
+		        @endif
+	        </small>
+		</h4>
+
 
     @else 
 	    	@if($regla->tiporegla == 'POV' or $regla->tiporegla == 'PNC') 
@@ -151,8 +151,32 @@
 				        @endif
 			        </small>
 				</h4>
+    		@else
+    			@if($regla->tiporegla == 'NEG')
+					<h4 class='po-regla-descripcion fechainicio-po'>
+						<strong>Fecha Inicio : </strong><small>{{date_format(date_create($regla->fechainicio), 'd-m-Y H:i')}}</small>
+					</h4>
+					<h4 class='po-regla-descripcion fechafin-po'>
+						<strong>Fecha Fin : </strong><small>
+					        @if($regla->fechafin == $fechavacia) 
+					          <span class="label label-default">ilimitado</span> 
+					        @else 
+					          {{date_format(date_create($regla->fechafin), 'd-m-Y H:i')}}
+					        @endif
+				        </small>
+					</h4>
 
 
+					<h4 class='po-regla-descripcion cantidadminima-po'>
+						<strong>Departamento Afecta: </strong><small>
+					        @if(trim($regla->departamento_id) == '') 
+					          <span class="label label-default">TODOS</span> 
+					        @else 
+					          <span class="badge badge-default">{{$funcion->funciones->departamento($regla->departamento_id)->NOM_CATEGORIA}}</span>
+					        @endif
+				        </small>
+					</h4>
+				@endif
 	    	@endif
 
     @endif

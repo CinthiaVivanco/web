@@ -491,8 +491,17 @@ class Funcion{
 						->get();
 
 		if($tiporegla=='PNC' or $tiporegla=='POV' or $tiporegla=='PRD'){
-			$cantidad = 4; //osea si tiene 5 reglas
+			$cantidad = 6; //osea si tiene 7 reglas
 		}
+
+		if($tiporegla=='NEG'){
+			$cantidad = 0; //osea si tiene 2 reglas
+		}
+
+		if($tiporegla=='CUP'){
+			$cantidad = 0; //osea si tiene 2 reglas
+		}
+
 
 		if(count($listareglas) > $cantidad ){
 			$mensaje = 'Tienes una regla activa por el momento';

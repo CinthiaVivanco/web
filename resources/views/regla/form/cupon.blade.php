@@ -156,7 +156,9 @@
 			</div>
 		</div>
 
-		<div class="col-sm-6">
+
+
+		<div class="col-sm-6" style="display: none;">
 			<div class="form-group">
 			  	<label class="col-sm-4 control-label">
 			  		<div class="tooltipfr">Cantidad Mínima <span class='requerido'>*</span>
@@ -234,6 +236,29 @@
 		</div>
 
 
+		<div class="col-sm-6 ind_departamento">
+			<div class="form-group">
+
+			  	<label class="col-sm-4 control-label">
+			  		<div class="tooltipfr">Departamento
+			  			<span class="tooltiptext">Seleccione al departamento al cual se afectara el precio regular.</span>
+					</div>
+				</label>
+				
+				<div class="col-sm-8 ">
+			          {!! Form::select( 'departamento', $combodepartamentos, array(),
+                      [
+                        'class'       => 'form-control control select2' ,
+                        'id'          => 'departamento',
+                        'data-aw'     => '1',
+                      ]) !!}
+				</div>
+
+			</div>	
+		</div>
+
+
+
     </div>
   </div>
 </div>
@@ -300,40 +325,6 @@
 			  </div>
 			</div>
 
-		</div>
-
-
-		<div class="col-sm-6">
-			<div class="form-group">
-			  	<label class="col-sm-2 control-label">
-			  		<div class="tooltipfr">Publicar
-					  <span class="tooltiptext">Diferentes estados de la regla.</span>
-					</div>
-				</label>
-			  <div class="col-sm-10">
-
-			    <div class="be-radio inline has-success">
-			      <input type="radio"  
-			      name="estado" id="publicar"  value='PU'
-			      @if(isset($regla)) @if($regla->estado == 'PU') checked @endif @else checked @endif >
-			      <label for="publicar">Publicar</label>
-			    </div>
-
-			    <div class="be-radio inline has-warning">
-			      <input type="radio" name="estado" id="nopublicar" value='NP'
-			      @if(isset($regla)) @if($regla->estado == 'NP') checked @endif @endif>
-			      <label for="nopublicar">No Publicar </label>
-			    </div>
-
-			    <div class="be-radio inline has-danger">
-			      <input type="radio" name="estado" id="culminado" value='CU'
-			      @if(isset($regla)) @if($regla->estado == 'CU') checked @endif @endif>
-			      <label for="culminado">Culminar </label>
-			    </div>
-
-
-			  </div>
-			</div>
 		</div>
 
 

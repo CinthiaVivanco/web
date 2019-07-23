@@ -11,13 +11,13 @@
 			  		  data_sw='0'
 			  		  data_regla='{{$item->regla_id}}'
 			  		  data-toggle='popovers'>
-			  		{{strtoupper(substr($item->nombre, 0, 10))}} ...
+			  		{{$item->regla->codigo}}
 			  	</span>
 
 			  	@include('regla.listado.ajax.departamento')
 			  	@include('regla.listado.ajax.precioregular')
 				@include('regla.listado.ajax.descuento')		  			  	
-				@include('regla.listado.ajax.etiquetadescuentoaumento')
+
 				@include('regla.listado.ajax.localizacion')	        		
         	</div>
 
