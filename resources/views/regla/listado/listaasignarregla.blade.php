@@ -11,8 +11,7 @@
       <th class='columna_1'>Nombre</th>
       <th class='columna_1'>Precio</th>
       <th class='columna_1'>Departamento</th>
-
-      <th class='columna_2'>Precio Producto</th>
+      <th class='columna_2'>Promoción o Descuento</th>
       <th class='columna_2 warning'>Nota Credito</th>
       <th class='columna_2 danger'>Cupón</th>
       <th class='columna_2 success'>Negociación</th>   

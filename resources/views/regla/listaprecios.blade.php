@@ -10,7 +10,7 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Reglas de descuento
+                <div class="panel-heading">Reglas de promoción y descuento
                   <div class="tools">
                     <a href="{{ url('/agregar-regla-precio/'.$idopcion) }}" data-toggle="tooltip" data-placement="top" title="Crear Descuento del producto">
                       <span class="icon mdi mdi-plus-circle-o"></span>
