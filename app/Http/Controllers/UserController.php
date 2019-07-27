@@ -54,7 +54,9 @@ class UserController extends Controller
 											->groupBy('web.grupoopciones.id')
 											->groupBy('web.grupoopciones.nombre')
 											->groupBy('web.grupoopciones.icono')
-											->select('web.grupoopciones.id','web.grupoopciones.nombre','web.grupoopciones.icono')
+											->groupBy('web.grupoopciones.orden')
+											->select('web.grupoopciones.id','web.grupoopciones.nombre','web.grupoopciones.icono','web.grupoopciones.orden')
+											->orderBy('web.grupoopciones.orden', 'asc')
 											->get();
 
 					$listaopciones    	= 	WEBRolOpcion::where('rol_id', '=', $tusuario->rol_id)

@@ -51,7 +51,7 @@ class RedesSociales extends Command
             'aviso' => 'seamos tendencia'
         );
 
-        Mail::send('emails.redessociales', $array, function($message) use ($emailfrom,$email)
+        Mail::send('emails.redessocialesvictoria', $array, function($message) use ($emailfrom,$email)
         {
 
             $emailprincipal     = explode(",", $email->correoprincipal);

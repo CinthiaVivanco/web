@@ -124,6 +124,11 @@
 	        </small>
 		</h4>
 
+		<h4 class='po-regla-descripcion cantidadminima-po'>
+			<strong>Cantidad Minima: </strong><small>
+		          <span class="label label-default">{{$regla->cantidadminima}}</span> 
+	        </small>
+		</h4>
 
     @else 
 	    	@if($regla->tiporegla == 'POV' or $regla->tiporegla == 'PNC') 
@@ -151,6 +156,13 @@
 				        @endif
 			        </small>
 				</h4>
+
+				<h4 class='po-regla-descripcion cantidadminima-po'>
+					<strong>Cantidad Minima: </strong><small>
+				          <span class="label label-default">{{$regla->cantidadminima}}</span> 
+			        </small>
+				</h4>
+
     		@else
     			@if($regla->tiporegla == 'NEG')
 					<h4 class='po-regla-descripcion fechainicio-po'>
@@ -176,6 +188,13 @@
 					        @endif
 				        </small>
 					</h4>
+
+					<h4 class='po-regla-descripcion cantidadminima-po'>
+						<strong>Cantidad Minima: </strong><small>
+					          <span class="label label-default">{{$regla->cantidadminima}}</span> 
+				        </small>
+					</h4>
+						
 				@endif
 	    	@endif
 

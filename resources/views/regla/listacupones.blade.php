@@ -10,12 +10,13 @@
           <div class="row">
             <div class="col-sm-12">
               <div class="panel panel-default panel-table">
-                <div class="panel-heading">Lista de Cupones
+                <div class="panel-heading">Regla de Cupones
                   <div class="tools">
                     <a href="{{ url('/agregar-regla-cupon/'.$idopcion) }}" data-toggle="tooltip" data-placement="top" title="Crear Cupon">
                       <span class="icon mdi mdi-plus-circle-o"></span>
                     </a>
 
+                    <span class="panel-subtitle">Se genera un cupon para poder hacer un descuento posterior.</span>
 
                   </div>
                 </div>
@@ -26,14 +27,15 @@
                         <th>Nombre</th>
                         <th>Cupon</th>
                         <th>Codigo</th>
-                        <th>Acción</th>
                         <th>Monto</th>
                         <th>Utilizada</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha de expiración</th>
                         <th>Total disponible</th>
                         <th>Cada usuario</th>
                         <th>Departamento</th>
-                        <th>Fecha inicio</th>
-                        <th>Fecha de expiración</th>
+                        <th>Cantidad Minima</th>
+
                         <th>Estado</th>
                         <th>Opción</th>
                       </tr>
@@ -42,17 +44,9 @@
 
                       @foreach($listacupones as $item)
                         <tr>
-                          <td>{{$item->nombre}}</td>
+                          <td>{{strtoupper($item->nombre)}}</td>
                           <td>{{$item->cupon}}</td>
                           <td>{{$item->codigo}}</td>
-
-                          <td>
-                            @if($item->descuentoaumento == 'DS') 
-                              <span class="badge badge-danger">Descuento</span> 
-                            @else 
-                              <span class="badge badge-primary">Aumento</span>
-                            @endif
-                          </td>
                           
                           <td>
 
@@ -66,6 +60,16 @@
                           <td>
                             <span class="badge badge-default">{{$item->cantidadutilizada}}</span>
                           </td>
+                          
+                          <td>{{date_format(date_create($item->fechainicio), 'd-m-Y H:i')}}</td>
+                          <td>
+                            @if($item->fechafin == $fechavacia) 
+                              <span class="badge badge-default">ilimitado</span> 
+                            @else 
+                              {{date_format(date_create($item->fechafin), 'd-m-Y H:i')}}
+                            @endif
+                          </td>
+
                           <td>
 
                             @if($item->totaldisponible == 0) 
@@ -84,22 +88,18 @@
                           </td>
 
                           <td>
-                            @if($item->departamento_id == '') 
+                            @if(trim($item->departamento_id) == '') 
                               <span class="badge badge-default">TODOS</span> 
                             @else 
                               <span class="badge badge-danger">{{$funcion->funciones->departamento($item->departamento_id)->NOM_CATEGORIA}}</span>
                             @endif
                           </td>
 
-
-                          <td>{{date_format(date_create($item->fechainicio), 'd-m-Y H:i')}}</td>
                           <td>
-                            @if($item->fechafin == $fechavacia) 
-                              <span class="badge badge-default">ilimitado</span> 
-                            @else 
-                              {{date_format(date_create($item->fechafin), 'd-m-Y H:i')}}
-                            @endif
+                              <span class="badge badge-default">{{$item->cantidadminima}}</span>
                           </td>
+
+
                           <td> 
                             @if($item->estado == 'PU') 
                               <span class="badge badge-success">PUBLICADO</span>
@@ -112,9 +112,28 @@
                             @endif
 
                           </td>
-                          <td class="rigth">
 
+                          <td class="rigth">
+                            <div class="btn-group btn-hspace">
+                              <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Acción <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
+                              <ul role="menu" class="dropdown-menu pull-right">
+                                <!--
+                                <li>
+                                  <a href="{{ url('/modificar-regla-precio/'.$idopcion.'/'.Hashids::encode(substr($item->id, -8))) }}">
+                                    Modificar
+                                  </a>  
+                                </li>
+                                -->
+                                <li>
+                                  <a href="{{ url('/gestion-masiva-regla-precio/'.$idopcion.'/'.Hashids::encode(substr($item->id, -8))) }}">
+                                    Gestión masiva
+                                  </a>  
+                                </li>
+                              </ul>
+                            </div>
                           </td>
+
+                          
                         </tr>                    
                       @endforeach
 

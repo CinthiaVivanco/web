@@ -17,8 +17,6 @@ class AsignarReglaController extends Controller
 {
 
 
-
-
 	public function actionAjaxPrecioRegularDescuento(Request $request)
 	{
 
@@ -27,11 +25,15 @@ class AsignarReglaController extends Controller
 		$contrato_id 				=  	$request['contrato_id'];
 		$departamento_id 			=  	"";
 
-		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?');
+
+		$empresa_id			= 	Session::get('empresas')->COD_EMPR;
+		$centro_id			=	Session::get('centros')->COD_CENTRO;
+		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?,?');
         $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
         $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
-        $stmt->bindParam(3, $cliente_id ,PDO::PARAM_STR);
-        $stmt->bindParam(4, $departamento_id ,PDO::PARAM_STR); 
+        $stmt->bindParam(3, $departamento_id ,PDO::PARAM_STR);
+        $stmt->bindParam(4, $empresa_id ,PDO::PARAM_STR);
+        $stmt->bindParam(5, $centro_id ,PDO::PARAM_STR);
         $stmt->execute();
         $resultado = $stmt->fetch();
 
@@ -178,6 +180,7 @@ class AsignarReglaController extends Controller
 						    					->where('COD_CENTRO','=',Session::get('centros')->COD_CENTRO)
 												->orderBy('NOM_EMPR', 'asc')
 												->paginate($paginacion);
+												
 	    	// lista productos
 	    	$listadeproductos 				= 	$this->funciones->lista_productos_precio_buscar($producto_select,$tipoprecio_id,$clientes->COD_CONTRATO);
 
@@ -464,10 +467,8 @@ class AsignarReglaController extends Controller
 		/*$response 						= 	$this->funciones->precio_regla_calculo_menor_cero($producto_id,$cliente_id,$mensaje,$tipo,$regla_id);
 		if($response[0]['error']){echo json_encode($response); exit();}*/
 
-
 		$response 						= 	$this->funciones->tiene_regla_activa($producto_id,$cliente_id,$contrato_id,$mensaje,$tipo);
 		if($response[0]['error']){echo json_encode($response); exit();}
-
 
 		$response 						= 	$this->funciones->tiene_regla_repetida($producto_id,$cliente_id,$contrato_id,$regla_id,$mensaje,$tipo);
 		if($response[0]['error']){echo json_encode($response); exit();}
@@ -495,7 +496,7 @@ class AsignarReglaController extends Controller
 	    $producto_id 				= 	$request['producto_id'];
 	    $cliente_id 				= 	$request['cliente_id'];
 	    $contrato_id 				= 	$request['contrato_id'];
-	    $departamento_id_pr 		= 	$request['departamento_id_pr'];
+	    $departamento_id_pr 		= 	trim($request['departamento_id_pr']);
 	    $descuento_pr 				= 	$request['descuento_pr'];
 	    $tipo 						= 	$request['tipo'];
 		$mensaje 					=  	'Regla asignada con exito';
@@ -556,7 +557,9 @@ class AsignarReglaController extends Controller
 		$mensaje 					=  	'Regla eliminada con exito';
 		$error						=   false;
 
-		$cabecera            	 	=	WEBReglaProductoCliente::find($idreglaproductocliente);			
+		$cabecera            	 	=	WEBReglaProductoCliente::find($idreglaproductocliente);
+		$cabecera->fecha_mod 	    =  	$this->fechaactual;
+		$cabecera->usuario_mod 		=  	Session::get('usuario')->id;		
 		$cabecera->activo 	 	 	=  	0;			 
 		$cabecera->save();
 

@@ -50,8 +50,6 @@
                                       <i class="mdi mdi-check-circle"></i>
                                       {{$item->precio}}
                                   @endif
-
-                                  
                                 </td>
                                 <td class='columna-warning'>
                                   <input type="text"  

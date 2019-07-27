@@ -3,6 +3,7 @@ $(document).ready(function(){
 
 	var carpeta = $("#carpeta").val();
 
+
     $(".asignarregla").on('click','.cambiar-contrato', function(e) {
 
         var _token                  =   $('#token').val();

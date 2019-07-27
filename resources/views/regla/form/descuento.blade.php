@@ -149,7 +149,7 @@
 		</div>
 
 
-		<div class="col-sm-6" style="display: none;">
+		<div class="col-sm-6 ind_cantidad_minima">
 			<div class="form-group">
 			  	<label class="col-sm-4 control-label">
 			  		<div class="tooltipfr">Cantidad Mínima <span class='requerido'>*</span>

@@ -11,6 +11,22 @@ use PDO;
 class Funcion{
 
 
+	public function combo_jefe_ventas() {
+
+
+        $lista_jefes_ventas = 		CMPCategoria::where('CMP.CATEGORIA.COD_ESTADO','=',1)
+        							->where('CMP.CATEGORIA.IND_ACTIVO','=',1)
+        							->where('CMP.CATEGORIA.TXT_GRUPO', '=' , 'JEFE_VENTA')
+							        ->where('CMP.CATEGORIA.TXT_ABREVIATURA','=', Session::get('centros')->COD_CENTRO)
+									->pluck('CMP.CATEGORIA.NOM_CATEGORIA','CMP.CATEGORIA.COD_CATEGORIA')
+									->toArray();
+							   
+		$combo_jefes_ventas  	= 	array('' => "Seleccione Responsable") + $lista_jefes_ventas;
+		return $combo_jefes_ventas;		 			
+	}
+
+
+
 	public function lista_precios_departamento_cliente($contrato_id,$producto_id,$cliente_id) {
 
 
@@ -32,13 +48,16 @@ class Funcion{
 		// RECORRER TODOS LOS DEPARTAMENTOS CON SU PRECIO
 		foreach($lista_reglas_departamento as $item){
 
-			$departamento_id 	= 	$item->departamento_id;
+			$departamento_id 	= 	trim($item->departamento_id);
 
-			$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?');
+			$empresa_id			= 	Session::get('empresas')->COD_EMPR;
+			$centro_id			=	Session::get('centros')->COD_CENTRO;
+			$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?,?');
 	        $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
 	        $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
-	        $stmt->bindParam(3, $cliente_id ,PDO::PARAM_STR);
-	        $stmt->bindParam(4, $departamento_id ,PDO::PARAM_STR); 
+	        $stmt->bindParam(3, $departamento_id ,PDO::PARAM_STR);
+	        $stmt->bindParam(4, $empresa_id ,PDO::PARAM_STR);
+	        $stmt->bindParam(5, $centro_id ,PDO::PARAM_STR);
 	        $stmt->execute();
 	        $resultado = $stmt->fetch();
 
@@ -54,6 +73,8 @@ class Funcion{
 
 	public function descuento_reglas_producto($contrato_id,$producto_id,$cliente_id,$departamento_id) {
 
+		$departamento_id = trim($departamento_id);
+
 		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.descuento_regla_producto_contrato ?,?,?,?');
         $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
         $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
@@ -68,11 +89,17 @@ class Funcion{
 
 	public function precio_descuento_reglas_producto($contrato_id,$producto_id,$cliente_id,$departamento_id) {
 
-		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?');
+		$departamento_id = trim($departamento_id);
+
+		$empresa_id			= 	Session::get('empresas')->COD_EMPR;
+		$centro_id			=	Session::get('centros')->COD_CENTRO;
+		$stmt = DB::connection('sqlsrv')->getPdo()->prepare('SET NOCOUNT ON;EXEC web.precio_producto_contrato ?,?,?,?,?');
         $stmt->bindParam(1, $contrato_id ,PDO::PARAM_STR);
         $stmt->bindParam(2, $producto_id ,PDO::PARAM_STR);
-        $stmt->bindParam(3, $cliente_id ,PDO::PARAM_STR);
-        $stmt->bindParam(4, $departamento_id ,PDO::PARAM_STR); 
+        $stmt->bindParam(3, $departamento_id ,PDO::PARAM_STR);
+        $stmt->bindParam(4, $empresa_id ,PDO::PARAM_STR);
+        $stmt->bindParam(5, $centro_id ,PDO::PARAM_STR);
+	         
         $stmt->execute();
         $resultado = $stmt->fetch();
 		return  $resultado['precio'];
@@ -275,6 +302,8 @@ class Funcion{
 
 	public function departamento($departamento_id) {
 
+
+		$departamento_id = trim($departamento_id);
 		$departamento   		=	CMPCategoria::where('TXT_PREFIJO','=','DEP')
 									->where('COD_CATEGORIA','=',$departamento_id)
 									->first();
@@ -475,6 +504,29 @@ class Funcion{
 	}
 
 
+	public function la_regla_esta_desactivada($regla_id,$mensaje) {
+
+		$mensaje					=   $mensaje;
+		$error						=   false;
+		$cantidad 					=  	0;
+
+		$regla 						=   WEBRegla::where('estado','=','CU')->where('id','=',$regla_id)->get();
+
+		if(count($regla) > 0){
+			$mensaje = 'Esta regla esta "CERRADA" no se puede actualizar';
+			$error   = true;
+		}								
+
+		$response[] = array(
+			'error'           		=> $error,
+			'mensaje'      			=> $mensaje
+		);
+
+		return $response;
+
+	}
+
+
 
 	public function tiene_regla_activa($producto_id,$cliente_id,$contrato_id,$mensaje,$tiporegla) {
 
@@ -522,6 +574,8 @@ class Funcion{
 		$mensaje					=   $mensaje;
 		$error						=   false;
 		$cantidad 					=  	0;
+		$departamento_id_pr 		= 	trim($departamento_id_pr);
+
 
 		$listareglas = 	WEBReglaProductoCliente::join('WEB.reglas', 'WEB.reglaproductoclientes.regla_id', '=', 'WEB.reglas.id')
 						->where('WEB.reglaproductoclientes.producto_id','=',$producto_id)
@@ -754,6 +808,21 @@ class Funcion{
 
 	 	return  $combolistaproductos;					 			
 	}
+
+
+	public function combo_lista_productos_todos() {
+
+		$lista_producto_precio 		= 	WEBPrecioProducto::join('WEB.LISTAPRODUCTOSAVENDER', 'COD_PRODUCTO', '=', 'producto_id')
+						    			->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+						    			->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+										->pluck('NOM_PRODUCTO','producto_id')
+										->toArray();
+		$combolistaproductos  		= 	array('' => "Seleccione producto",'1' => "TODOS") + $lista_producto_precio;
+
+	 	return  $combolistaproductos;					 			
+	}
+
+
 
 	public function combo_nombres_lista_clientes() {
 

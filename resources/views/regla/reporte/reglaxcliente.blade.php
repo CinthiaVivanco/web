@@ -20,7 +20,6 @@
                 <div class="panel-heading">Reglas x Cliente
                   <div class="tools tooltiptop">
 
-
                     <a href="{{url('/reglas-cliente-pdf')}}" 
                         target="_blank"
                         class='tooltipcss'
@@ -103,6 +102,7 @@
           </div>
     </div>
   </div>
+</div>
 
 @stop
 

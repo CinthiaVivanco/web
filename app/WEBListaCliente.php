@@ -29,4 +29,25 @@ class WEBListaCliente extends Model
 
     }
 
+    public function scopeCanal($query,$canal){
+        if(trim($canal) != ''){
+            $query->where('COD_CATEGORIA_CANAL_VENTA', '=', $canal);
+        }
+    }
+
+    public function scopeCliente($query,$cliente){
+        if(trim($cliente) != ''){
+            $query->where('COD_CONTRATO', '=', $cliente);
+        }
+    }
+
+
+    public function scopeSubCanal($query,$subcanal){
+        if(trim($subcanal) != ''){
+            $query->where('COD_CATEGORIA_SUB_CANAL', '=', $subcanal);
+        }
+    }
+
+
+
 }

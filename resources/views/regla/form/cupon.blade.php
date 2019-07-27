@@ -158,30 +158,7 @@
 
 
 
-		<div class="col-sm-6" style="display: none;">
-			<div class="form-group">
-			  	<label class="col-sm-4 control-label">
-			  		<div class="tooltipfr">Cantidad Mínima <span class='requerido'>*</span>
-					  <span class="tooltiptext">Cantidad que deberia comprar para aplicación del cupón
-					  							(si es 0 aplica en cualquier cantidad comprada).</span>
-					</div>
-			  	</label>
-			  	<div class="col-sm-8 abajocaja">
 
-			    <input  type="text"
-			            id="cantidadminima" name='cantidadminima' 
-			            value="@if(isset($regla)){{old('cantidadminima' ,$regla->cantidadminima)}}@else{{old('cantidadminima',0)}}@endif"
-			            placeholder="Cantidad Mínima"
-			            required = "" class="form-control input-sm solonumero" data-parsley-type="number"
-			            autocomplete="off" data-aw="6"/>
-
-			    @include('error.erroresvalidate', [ 'id' => $errors->has('cantidadminima')  , 
-			                                          'error' => $errors->first('cantidadminima', ':message') , 
-			                                          'data' => '6'])
-
-			  	</div>
-			</div>
-		</div>
 
 		<div class="col-sm-6">
 			<div class="form-group">
@@ -258,6 +235,30 @@
 		</div>
 
 
+		<div class="col-sm-6">
+			<div class="form-group">
+			  	<label class="col-sm-4 control-label">
+			  		<div class="tooltipfr">Cantidad Mínima <span class='requerido'>*</span>
+					  <span class="tooltiptext">Cantidad que deberia comprar para aplicación del cupón
+					  							(si es 0 aplica en cualquier cantidad comprada).</span>
+					</div>
+			  	</label>
+			  	<div class="col-sm-8 abajocaja">
+
+			    <input  type="text"
+			            id="cantidadminima" name='cantidadminima' 
+			            value="@if(isset($regla)){{old('cantidadminima' ,$regla->cantidadminima)}}@else{{old('cantidadminima',0)}}@endif"
+			            placeholder="Cantidad Mínima"
+			            required = "" class="form-control input-sm solonumero" data-parsley-type="number"
+			            autocomplete="off" data-aw="6"/>
+
+			    @include('error.erroresvalidate', [ 'id' => $errors->has('cantidadminima')  , 
+			                                          'error' => $errors->first('cantidadminima', ':message') , 
+			                                          'data' => '6'])
+
+			  	</div>
+			</div>
+		</div>
 
     </div>
   </div>

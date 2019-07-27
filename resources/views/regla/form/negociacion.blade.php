@@ -116,7 +116,7 @@
 			</div>	
 		</div>
 
-		<div class="col-sm-6" style="display: none;">
+		<div class="col-sm-6">
 			<div class="form-group">
 			  	<label class="col-sm-4 control-label">
 			  		<div class="tooltipfr">Cantidad Mínima <span class='requerido'>*</span>

@@ -43,19 +43,32 @@ var App = (function () {
         ]
     });
 
+    $("#tablereglamasivo").dataTable({
+        "lengthMenu": [[1500, 2000, -1], [500, 1000, "All"]],
+        order : [[ 0, "asc" ]],
+        columnDefs: [ 
+            {
+                className: 'control',
+                orderable: false,
+                targets:   -1
+            },
+            { orderable: false, targets: -1 },
+            { orderable: false, targets: -2 }
+        ],
+    });
 
 
     $("#tablenegociaciones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 6, "asc" ]],
+        order : [[ 5, "asc" ]],
     });
     $("#tablecupones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 10, "asc" ]],
+        order : [[ 6, "asc" ]],
     });
     $("#tableprecios").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],
-        order : [[ 6, "asc" ]],
+        order : [[ 5, "asc" ]],
     });
 
 

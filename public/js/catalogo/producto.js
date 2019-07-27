@@ -93,15 +93,20 @@ $(document).ready(function(){
             $("input[name='tipodescuento'][value='IMP']").prop('checked', 'checked');
             $(".ssoles").css("display", "table-cell");
             $(".sporcentaje").css("display", "none");
+
             $(".ind_departamento").css("display", "block");
+            $(".ind_cantidad_minima").css("display", "block");
 
             /*$(".aumentorb").prop('disabled', false);
             $(".ind_departamentob").prop('disabled', false);*/
         }else{
 
             $("#porcentaje").prop('disabled', false);
+
             $("#departamento").val("").change();
             $(".ind_departamento").css("display", "none");
+            $("#cantidadminima").val("0");
+            $(".ind_cantidad_minima").css("display", "none");
             /*$(".aumentorb").prop('disabled', true);
             $(".ind_departamentob").prop('disabled', true);
             $("input[name='ind_departamento'][value='0']").prop('checked', 'checked');

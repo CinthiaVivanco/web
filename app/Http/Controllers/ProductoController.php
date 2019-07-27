@@ -164,7 +164,7 @@ class ProductoController extends Controller
 			$cabecera->tipodescuento 	=  	'IMP';
 			$cabecera->descuento 		=  	trim($request['descuento']);
 			$cabecera->estado 			=  	'PU';
-			$cabecera->departamento_id 	=  	$request['departamento'];			
+			$cabecera->departamento_id 	=  	trim($request['departamento']);			
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;
@@ -223,7 +223,7 @@ class ProductoController extends Controller
 				$fechavacia  = $this->fechavacia;
 
 			    //combo departamentos
-				$combodepartamentos 		= 	$this->funciones->combo_departamentos_modificar($regla->departamento_id);
+				$combodepartamentos 		= 	$this->funciones->combo_departamentos_modificar(trim($regla->departamento_id));
 
 		        return View::make('regla/modificarprecioregular', 
 		        				[
@@ -263,11 +263,13 @@ class ProductoController extends Controller
 	    					->get();
 
 		$fechavacia  = $this->fechavacia;
+		$funcion 	 = 	$this;
 
 		return View::make('regla/listanegociacion',
 						 [
 						 	'listanegociacion' 		=> $listanegociacion,
 						 	'fechavacia'	 		=> $fechavacia,
+						 	'funcion'	 			=> $funcion,
 						 	'idopcion' 				=> $idopcion,
 						 ]);
 	}
@@ -284,6 +286,11 @@ class ProductoController extends Controller
 		if($_POST)
 		{
 
+
+			$departamento_id 			=   $request['departamento'];
+			if(is_null($departamento_id)){$departamento_id = '';}
+
+
 			$codigo 					= 	$this->funciones->generar_codigo('WEB.reglas',6);
 			$idregla 					= 	$this->funciones->getCreateIdMaestra('WEB.reglas');
 
@@ -299,7 +306,7 @@ class ProductoController extends Controller
 			$cabecera->descuento 		=  	trim($request['descuento']);
 			$cabecera->estado 			=  	'PU';
 			$cabecera->descuentoaumento =  	'DS';
-			$cabecera->departamento_id 	=  	$request['departamento'];
+			$cabecera->departamento_id 	=  	$departamento_id;
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;
@@ -411,6 +418,9 @@ class ProductoController extends Controller
 		{
 
 
+			$departamento_id 			=   $request['departamento'];
+			if(is_null($departamento_id)){$departamento_id = '';}
+
 			$codigo 					= 	$this->funciones->generar_codigo('WEB.reglas',6);
 			$idregla 					= 	$this->funciones->getCreateIdMaestra('WEB.reglas');
 
@@ -428,11 +438,7 @@ class ProductoController extends Controller
 			$cabecera->estado 			=  	'PU';
 			$cabecera->documento 		=  	trim($request['documento']);
 			$cabecera->descuentoaumento =  	'DS';
-
-			
-			//$cabecera->descuentoaumento =  	$request['descuentoaumento'];
-			//$cabecera->ind_departamento =  	$request['ind_departamento'];
-			$cabecera->departamento_id 	=  	$request['departamento'];
+			$cabecera->departamento_id 	=  	$departamento_id;
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;
@@ -552,6 +558,9 @@ class ProductoController extends Controller
 		if($_POST)
 		{
 
+			$departamento_id 			=   $request['departamento'];
+			if(is_null($departamento_id)){$departamento_id = '';}
+
 			$codigo 					= 	$this->funciones->generar_codigo('WEB.reglas',6);
 			$idregla 					= 	$this->funciones->getCreateIdMaestra('WEB.reglas');
 
@@ -571,7 +580,7 @@ class ProductoController extends Controller
 			$cabecera->descuento 		=  	trim($request['descuento']);
 			$cabecera->estado 			=  	'PU';
 			$cabecera->descuentoaumento =  	'DS';
-			$cabecera->departamento_id 	=  	$request['departamento'];
+			$cabecera->departamento_id 	=  	$departamento_id;
 			$cabecera->fecha_crea 	    =  	$this->fechaactual;
 			$cabecera->usuario_crea 	=  	Session::get('usuario')->id;
 			$cabecera->empresa_id 		=   Session::get('empresas')->COD_EMPR;

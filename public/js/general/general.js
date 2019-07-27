@@ -210,7 +210,7 @@ function abrircargando(mensaje) {
     var heightdivsito = alto/2 - parseInt(height)/2 - 100;//Se utiliza en el margen superior, para centrar
  
    //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
-    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div style='margin-top:" + heightdivsito + "px;'><img style='width: 200px;' src='../public/img/gif/cargando1.gif'></div><div class='msjcargando'>" + mensaje + "</div></div>";
+    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div style='margin-top:" + heightdivsito + "px;'></div><div class='msjcargando'>" + mensaje + "</div></div>";
  
         //creamos el div que bloquea grande------------------------------------------
         div = document.createElement("div");

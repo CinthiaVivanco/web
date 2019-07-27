@@ -1,3 +1,35 @@
+.mdi-delete{
+  color: #eb6357 !important;
+}
+.mdi-mail-send{
+  color: #4285f4 !important;
+}
+.be-checkbox.has-primary input[type="checkbox"] + label:before, 
+.be-radio.has-primary input[type="checkbox"] + label:before, 
+.be-checkbox.has-primary input[type="radio"] + label:before, 
+.be-radio.has-primary input[type="radio"] + label:before{
+  border-color:#5f99f5;
+}
+.ind_producto .select2-container--default .select2-selection--single{
+  border: 1px solid #2371f2;
+  color: #2371f2;
+}
+.ind_producto .labelleft{
+  color : #2371f2;
+  font-weight: bold;
+}
+
+.titulo_regla{
+  padding-top: 20px;
+  font-style: italic;
+}
+
+.descuento_regla{
+  font-style: italic;
+  font-size: 1.2em;
+  padding-bottom: 20px;
+}
+
 
 .columna_marcada1{
   background:#abc8f7;
@@ -708,6 +740,16 @@
     top: 4px;
     right: 4px;
 }
+
+.columna-primary .mdi-check-circle{
+    position: absolute;
+    font-size: 14px;
+    color: #fff;
+    top: 4px;
+    right: 4px;
+}
+
+
 .requerido{
     color : #ea4335;
 }
@@ -724,13 +766,22 @@ height: 26px;
 .tablaprecio{
 font-size: 0.85em;
 }
+
+
+.columna-primary , .columna-primary-titulo{
+  color: #fff;
+  background-color: #4285f4;
+  text-align: center;
+  position: relative;
+}
+
 .columna-success , .columna-success-titulo{
-color: #fff;
+  color: #fff;
   background-color: #5cb85c;
   text-align: center;
   position: relative;
 }
-.columna-success{
+.columna-success,.columna-primary{
   font-size: 1.4em !important;
 }
 
