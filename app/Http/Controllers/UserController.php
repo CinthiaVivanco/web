@@ -61,6 +61,7 @@ class UserController extends Controller
 
 					$listaopciones    	= 	WEBRolOpcion::where('rol_id', '=', $tusuario->rol_id)
 											->where('ver', '=', 1)
+											->orderBy('orden', 'asc')
 											->pluck('opcion_id')
 											->toArray();
 

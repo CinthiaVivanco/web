@@ -27,9 +27,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('desactivarreglas:desactivarreglasContrato')->everyMinute(); // CADA MINUTO
-        $schedule->command('redessociales:publicidadredessociales')->dailyAt('12:30');
-        $schedule->command('redessociales:publicidadredessociales')->dailyAt('15:00');
+        //$schedule->command('desactivarreglas:desactivarreglasContrato')->everyMinute(); // CADA MINUTO
+        //$schedule->command('redessociales:publicidadredessociales')->dailyAt('12:30');
+        //$schedule->command('redessociales:publicidadredessociales')->dailyAt('15:00');
     }
 
     /**
