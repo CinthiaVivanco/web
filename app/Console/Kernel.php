@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\DesactivarReglas;
 use App\Console\Commands\RedesSociales;
+use App\Console\Commands\AlertaDesactivarReglas;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,7 +17,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         DesactivarReglas::class,
-        RedesSociales::class
+        RedesSociales::class,
+        AlertaDesactivarReglas::class
     ];
 
     /**
@@ -27,7 +29,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //$schedule->command('desactivarreglas:desactivarreglasContrato')->everyMinute(); // CADA MINUTO
+        $schedule->command('desactivarreglas:desactivarreglasContrato')->everyMinute(); // CADA MINUTO
+        $schedule->command('alertadesactivarreglas:desactivarreglasmanana')->dailyAt('08:00');
         //$schedule->command('redessociales:publicidadredessociales')->dailyAt('12:30');
         //$schedule->command('redessociales:publicidadredessociales')->dailyAt('15:00');
     }

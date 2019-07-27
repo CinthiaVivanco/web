@@ -15,10 +15,8 @@
                     <a href="{{ url('/agregar-regla-cupon/'.$idopcion) }}" data-toggle="tooltip" data-placement="top" title="Crear Cupon">
                       <span class="icon mdi mdi-plus-circle-o"></span>
                     </a>
-
-                    <span class="panel-subtitle">Se genera un cupon para poder hacer un descuento posterior.</span>
-
                   </div>
+                  <span class="panel-subtitle">Se genera un cupon para poder hacer un descuento posterior.</span>
                 </div>
                 <div class="panel-body">
                   <table id="tablecupones" class="table table-striped table-hover table-fw-widget">
