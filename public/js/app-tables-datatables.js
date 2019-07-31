@@ -44,7 +44,7 @@ var App = (function () {
     });
 
     $("#tablereglamasivo").dataTable({
-        "lengthMenu": [[1500, 2000, -1], [500, 1000, "All"]],
+        "lengthMenu": [[1500, 2000, -1], [1500, 2000, "All"]],
         order : [[ 0, "asc" ]],
         columnDefs: [ 
             {

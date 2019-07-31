@@ -7,6 +7,9 @@ $(document).ready(function(){
     $(".gestionregla").on('click','#asignarpreciomasivo', function() {
 
         event.preventDefault();
+
+        $('input[type=search]').val('').change();
+        $("#tablereglamasivo").DataTable().search("").draw();
         data = dataenviar();
 
         precio_total    =   $('#precio_total').val();
@@ -18,8 +21,9 @@ $(document).ready(function(){
             return false;
         }
 
-        var datastring = JSON.stringify(data);
 
+
+        var datastring = JSON.stringify(data);
         actualizar_producto_masivas(datastring);
         actualizar_lista_porducto_masivas();
 
@@ -156,6 +160,9 @@ $(document).ready(function(){
     $(".gestionregla").on('click','#asignarreglas', function(event) {
         
         event.preventDefault();
+        $('input[type=search]').val('').change();
+        $("#tablereglamasivo").DataTable().search("").draw();
+
         data = dataenviar();
         if(data.length<=0){alerterrorajax('Seleccione por lo menos una fila'); return false;}
         var datastring = JSON.stringify(data);
@@ -169,6 +176,9 @@ $(document).ready(function(){
     $(".gestionregla").on('click','#eliminarreglas', function(event) {
         
         event.preventDefault();
+        $('input[type=search]').val('').change();
+        $("#tablereglamasivo").DataTable().search("").draw();
+        
         data = dataenviareliminar();
         if(data.length<=0){alerterrorajax('Seleccione por lo menos una fila'); return false;}
         var datastring = JSON.stringify(data);
