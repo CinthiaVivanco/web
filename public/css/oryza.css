@@ -1,9 +1,85 @@
+.notacredito .btnguardar{
+  position: absolute;
+  top: -45px;
+  right: -14px;
+}
+.notacredito .from-texto{
+  margin-bottom: 1px;
+}
+.notacredito .nrodocumento{
+  background: #37b358;
+}
+.notacredito .nrodocumento label{
+  color: #fff !important;
+  font-weight: bold;
+  padding-top: 4px;
+  padding-bottom: 5px;
+}  
+.bold{
+  font-weight: bold !important;
+}
+.notacredito .totales{
+  font-weight: bold;
+  font-size: 1.1em;
+  font-style: italic;
+  color: #37b358;
+}
+.notacredito .totalfactura{
+  /*padding-left: 185px;*/
+}
+.notacredito .totalnotacredito{
+  /*padding-left: 155px*/
+}
+
+#tablenotacredito_filter label{
+  padding-right: 33px;
+} 
+.abajocaja{
+  margin-bottom: 10px;
+}
+
+
+/********* SCROLL MODAL ***************/
+.scroll_text{
+  height:300px;
+  overflow:auto;
+  padding:0px 15px;
+}
+.scroll_text::-webkit-scrollbar {  
+    width: 8px;  
+}  
+.scroll_text::-webkit-scrollbar-track {  
+    background-color: #E7E7E7
+}  
+.scroll_text::-webkit-scrollbar-thumb {  
+   background-color: rgba(223, 86, 86, 0.69);
+border: 1px solid rgba(92, 92, 92, 0.5);
+border-radius: 10px;
+}  
+.scroll_text::-webkit-scrollbar-thumb:hover {  
+    background-color: #000;  
+  
+}  
+
+.badgenotacredito,.badgeelimnar{
+  cursor: pointer;
+}
+
+
 .mdi-delete{
   color: #eb6357 !important;
 }
 .mdi-mail-send{
   color: #4285f4 !important;
 }
+.badgeelimnar{
+  background : red;
+}
+
+.badgeelimnar .mdi-delete{
+  color: #fff !important;
+}
+
 .be-checkbox.has-primary input[type="checkbox"] + label:before, 
 .be-radio.has-primary input[type="checkbox"] + label:before, 
 .be-checkbox.has-primary input[type="radio"] + label:before, 

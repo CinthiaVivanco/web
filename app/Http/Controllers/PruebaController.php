@@ -46,4 +46,14 @@ class PruebaController extends Controller
 
       
     }
+
+
+    public function indicadoresISL(Request $request)
+    {
+		return View::make('prueba/powerbi');
+    }
+
+
+
+
 }

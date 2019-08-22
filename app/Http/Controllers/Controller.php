@@ -25,8 +25,13 @@ class Controller extends BaseController
 	    $this->funciones = new Funcion();
 		$fecha = new DateTime();
 		$fecha->modify('first day of this month');
+
+		$fechames = new DateTime();
+		$fechames->modify('next month');
+
 		$this->inicio 			= date_format(date_create($fecha->format('Y-m-d')), 'd-m-Y');
 		$this->fin 				= date_format(date_create(date('Y-m-d')), 'd-m-Y');
+		$this->messiguiente 	= date_format(date_create($fechames->format('Y-m-d')), 'd-m-Y');
 		$this->fechaactual 		= date('d-m-Y H:i:s');
 		$this->fechaactualinput = date('d-m-Y H:i');
 		$this->prefijomaestro	= $this->funciones->prefijomaestra();

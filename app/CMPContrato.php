@@ -26,4 +26,11 @@ class CMPContrato extends Model
     	}
 
     }
+
+    public function documentonotacredito()
+    {
+        return $this->hasMany('App\WEBDocumentoNotaCredito', 'contrato_id', 'id');
+    }
+
+
 }

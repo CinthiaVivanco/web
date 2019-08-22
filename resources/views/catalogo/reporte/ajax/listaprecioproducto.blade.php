@@ -56,7 +56,7 @@
                       @endforeach
                 </td>
 
-                <td class='left negrita'>
+                <td class='left negrita '>
                       S/. {{$funcion->funciones->precio_descuento_reglas_producto($item_c->COD_CONTRATO,$item->producto_id,$item_c->id,'')}}
                       @foreach($lista_precio_regular_departamento as $index_pr => $item_pr) 
                       <br>

@@ -57,6 +57,38 @@ var App = (function () {
         ],
     });
 
+    $("#tablenotacredito").dataTable({
+        "lengthMenu": [[3000, 4000, -1], [3000, 4000, "All"]],
+        order : [[ 2, "asc" ]],
+        "bLengthChange" : false,
+        columnDefs: [ 
+            { orderable: false, targets: -4 },
+            { orderable: false, targets: -2 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+
+    $("#tablenotacreditoeliminar").dataTable({
+        "lengthMenu": [[3000, 4000, -1], [3000, 4000, "All"]],
+        order : [[ 2, "asc" ]],
+        "bLengthChange" : false,
+        columnDefs: [ 
+            { orderable: false, targets: -4 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+
+    $("#tablenotacreditover").dataTable({
+        "lengthMenu": [[3000, 4000, -1], [3000, 4000, "All"]],
+        order : [[ 2, "asc" ]],
+        "bLengthChange" : false,
+        columnDefs: [ 
+            { orderable: false, targets: -3 },
+            { orderable: false, targets: -1 }
+        ]
+    });
+
+
 
     $("#tablenegociaciones").dataTable({
         "lengthMenu": [[500, 1000, -1], [500, 1000, "All"]],

@@ -8,14 +8,14 @@ use Illuminate\Support\Facades\Log;
 use App\WEBIlog,App\WEBMaestro;
 use Mail;
 
-class RedesSociales extends Command
+class ServicioDelivery extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'redessociales:publicidadredessociales';
+    protected $signature = 'servicio:delivery';
     /**
      * The console command description.
      *
@@ -48,7 +48,7 @@ class RedesSociales extends Command
         $email     = WEBMaestro::where('codigoatributo','=','0001')->where('codigoestado','=','00003')->first();
 
         $array = array(
-            'aviso' => 'seamos tendencia'
+            'aviso' => 'Delivery gratis'
         );
 
         Mail::send('emails.serviciodelivery', $array, function($message) use ($emailfrom,$email)
@@ -56,7 +56,7 @@ class RedesSociales extends Command
 
             $emailprincipal     = explode(",", $email->correoprincipal);
             
-            $message->from($emailfrom->correoprincipal, 'SEAMOS TENDENCIA');
+            $message->from($emailfrom->correoprincipal, 'DELIVERY GRATIS');
 
             if($email->correocopia<>''){
                 $emailcopias        = explode(",", $email->correocopia);

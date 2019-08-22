@@ -127,11 +127,41 @@ Route::group(['middleware' => ['authaw']], function () {
 	Route::any('/precio-producto-cliente-excel/{idcuenta}/{idtipoprecio}', 'ProductoReporteController@actionPrecioProductoClienteExcel');
 	Route::any('/precio-producto-cliente-pdf/{idcuenta}/{idtipoprecio}', 'ProductoReporteController@actionPrecioProductoClientePDF');
 
+	Route::any('/reporte-evolucion-precio-producto-cliente/{idopcion}', 'ProductoReporteController@actionEvolucionPrecioProductoXcliente');
+	Route::any('/ajax-reporte-lista-evolucion-precio-producto', 'ProductoReporteController@actionAjaxEvolucionProductosxCliente');
+	Route::any('/evolucion-precio-producto-cliente-excel/{idcuenta}/{fechadia}', 'ProductoReporteController@actionEvolucionPrecioProductoClienteExcel');
+	Route::any('/evolucion-precio-producto-cliente-pdf/{idcuenta}/{fechadia}', 'ProductoReporteController@actionEvolucionPrecioProductoClientePDF');
+
 
 	Route::any('/gestion-de-cuentas/{idopcion}', 'CarteraController@index');
 	Route::any('/cartera', 'CarteraController@ListarCuentas');
 	Route::any('/categoria/listarCategoria','CategoriaController@ListarCategoria');
 	Route::any('/reglacredito/actualizar','AsignarReglaController@ActualizarReglaCredito');
+
+
+	Route::any('/gestion-de-nota-credito-autoservicios/{idopcion}', 'NotaCreditoController@actionListarNotaCreditoAutoservicio');
+	Route::any('/agregar-reglas-orden-cen/{idopcion}', 'NotaCreditoController@actionAgregarReglaOrdenCen');
+	Route::any('/ajax-reglas-cliente-fechas', 'NotaCreditoController@actionAjaxReglasClienteFechas');
+	Route::any('/ajax-lista-oredencen-nota-credito', 'NotaCreditoController@actionAjaxListaOrdenCenNotaCredito');
+	Route::any('/ajax-modal-detalle-documento', 'NotaCreditoController@actionAjaxModalDetalleDocumento');
+	Route::any('/asociar-nota-credito/{idopcion}/{iddocumentonotacredito}', 'NotaCreditoController@actionAsociarNotaCredito');
+	Route::any('/ajax-nro-documento', 'NotaCreditoController@actionAjaxNroDocumento');
+
+	Route::any('/agregar-nota-credito', 'NotaCreditoController@actionGuardarNotaCredito');
+	Route::any('/ajax-glosa-documento', 'NotaCreditoController@actionAjaxGlosaDocumento');
+	Route::any('/ver-asignacion-nota-credito/{idopcion}/{iddocumentonotacredito}', 'NotaCreditoController@actionVerAsignacionNotaCredito');
+	Route::any('/agregar-orden-cen/{idopcion}/{iddocumentonotacredito}', 'NotaCreditoController@actionAgregarOrdenCen');
+	Route::any('/eliminar-orden-cen/{idopcion}/{iddocumentonotacredito}', 'NotaCreditoController@actionEliminarOrdenCen');
+	Route::any('/ajax-eliminar-orden-cen', 'NotaCreditoController@actionAjaxEliminarOrdenCen');
+
+	Route::any('/ajax-lista-agregar-oredencen-nota-credito', 'NotaCreditoController@actionAjaxListaAgregarOrdenCenNotaCredito');
+
+
+
+	/*Route::any('/ajax-lista-precio-producto_masivo', 'GestionProductoController@actionAjaxListaPrecioProductoMasiva');
+	Route::any('/ajax-actualizar-precio-producto-masivas', 'GestionProductoController@actionAjaxActualizarPrecioProductoMasivas');*/
+
+
 
 
    	Route::get('buscarcliente', function (Illuminate\Http\Request  $request) {
@@ -169,6 +199,7 @@ Route::group(['middleware' => ['authaw']], function () {
 
    	Route::any('/enviocorreos', 'CorreoController@enviocorreo');
    	Route::any('/pruebaquery', 'PruebaController@pruebas');
+   	Route::any('/power-bi', 'PruebaController@indicadoresISL');
 
 });
 

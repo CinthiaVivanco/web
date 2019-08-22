@@ -18,6 +18,132 @@ class ProductoReporteController extends Controller
 {
 
 
+	public function actionEvolucionPrecioProductoXcliente($idopcion)
+	{
+		/******************* validar url **********************/
+		$validarurl = $this->funciones->getUrl($idopcion,'Ver');
+	    if($validarurl <> 'true'){return $validarurl;}
+	    /******************************************************/
+
+		$comboclientes				= 	$this->funciones->combo_clientes_cuenta();
+		$combotipoprecio_producto	= 	$this->funciones->combo_tipo_precio_productos();		
+	
+		return View::make('catalogo/reporte/evolucionprecioproductoxcliente',
+						 [
+						 	'idopcion' 					=> $idopcion,
+							'comboclientes' 			=> $comboclientes,
+							'combotipoprecio_producto' 	=> $combotipoprecio_producto,
+							'inicio'					=> $this->inicio,
+							'hoy'						=> $this->fin,
+						 ]);
+
+	}
+
+
+	public function actionAjaxEvolucionProductosxCliente(Request $request)
+	{
+
+		set_time_limit(0);
+		$cuenta_id 						=  	$request['cuenta_id'];
+		$fechafin 						=  	$request['fechafin'];	
+
+	    $listadeproductos 				= 	$this->funciones->lista_productos_precio();			
+
+		// lista de clientes
+		$listacliente 					= 	WEBListaCliente::where('COD_CONTRATO','=',$cuenta_id)
+											->orderBy('NOM_EMPR', 'asc')
+											->get();
+
+		$funcion 						= 	$this;
+
+
+		return View::make('catalogo/reporte/ajax/listaevolucionprecioproducto',
+						 [
+							'listadeproductos'   	=> $listadeproductos,
+							'listacliente'   		=> $listacliente,
+						 	'funcion' 				=> $funcion,
+						 	'fechafin' 				=> $fechafin,				 						 					 
+						 ]);
+
+	}
+
+
+	public function actionEvolucionPrecioProductoClientePDF($idcuenta,$fechadia)
+	{
+
+
+		$nombretipoprecio				=   'TODO';
+		$titulo 						=   'Evolucion precios de los productos';
+	    $listadeproductos 				= 	$this->funciones->lista_productos_precio();			
+
+		// lista de clientes
+		$listacliente 					= 	WEBListaCliente::where('COD_CONTRATO','=',$idcuenta)
+											->orderBy('NOM_EMPR', 'asc')
+											->get();
+		$funcion 						= 	$this;
+		$empresa 						= 	Session::get('empresas')->NOM_EMPR;
+		$centro 						= 	Session::get('centros')->NOM_CENTRO;	
+		$fechaactual 					=   $fechadia;
+
+
+
+		$pdf 					= 	PDF::loadView('catalogo.pdf.listaevolucionprecioproducto', 
+												[
+													'listadeproductos' 	  => $listadeproductos,
+													'titulo' 		  	  => $titulo,
+													'listacliente' 		  => $listacliente,
+													'empresa' 		  	  => $empresa,											
+													'centro' 		  	  => $centro,
+													'funcion' 		  	  => $funcion,
+													'fechafin' 		  => $fechaactual,									
+												]);
+
+		return $pdf->stream('download.pdf');
+	}
+
+
+
+	public function actionEvolucionPrecioProductoClienteExcel($idcuenta,$fechadia)
+	{
+		set_time_limit(0);
+
+
+		$nombretipoprecio				=   'TODO';
+		$titulo 						=   'Evolucion precios de los productos';
+	    $listadeproductos 				= 	$this->funciones->lista_productos_precio();			
+
+		// lista de clientes
+		$listacliente 					= 	WEBListaCliente::where('COD_CONTRATO','=',$idcuenta)
+											->orderBy('NOM_EMPR', 'asc')
+											->get();
+		$funcion 						= 	$this;
+		$empresa 						= 	Session::get('empresas')->NOM_EMPR;
+		$centro 						= 	Session::get('centros')->NOM_CENTRO;	
+		$fechaactual 					=   $fechadia;
+
+		$funcion 						= 	$this;	
+
+
+	    Excel::create($titulo.' ('.$nombretipoprecio.')', function($excel) use ($listadeproductos,$titulo,$listacliente,$funcion,$empresa,$centro,$fechaactual) {
+
+	        $excel->sheet('Precios Productos', function($sheet) use ($listadeproductos,$titulo,$listacliente,$funcion,$empresa,$centro,$fechaactual) {
+
+	            $sheet->loadView('catalogo/excel/listaevolucionprecioproducto')->with('listadeproductos',$listadeproductos)
+	                                         		 ->with('titulo',$titulo)
+	                                         		 ->with('listacliente',$listacliente)
+	                                         		 ->with('empresa',$empresa)
+	                                         		 ->with('centro',$centro)	                                         		 
+	                                         		 ->with('funcion',$funcion)
+	                                         		 ->with('fechafin',$fechaactual);                                        		 
+	        });
+	    })->export('xls');
+
+	}
+
+
+
+
+
 	public function actionPrecioProductoXcliente($idopcion)
 	{
 		/******************* validar url **********************/

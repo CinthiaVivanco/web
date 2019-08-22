@@ -5,10 +5,41 @@ use Illuminate\Support\Facades\DB;
 use Hashids,Session,Redirect,table;
 use App\WEBRolOpcion,App\WEBListaCliente,App\STDTipoDocumento,App\WEBPrecioProducto,App\WEBReglaProductoCliente;
 use App\WEBRegla,App\WEBUserEmpresaCentro,App\WEBPrecioProductoContrato,App\CMPCategoria;
+use App\WEBPrecioProductoContratoHistorial,App\WEBPrecioProductoHistorial,App\CMPOrden,App\CMPDetalleProducto;
 use Keygen;
 use PDO;
 
 class Funcion{
+
+
+
+	public function calculo_precio_venta($cliente,$producto,$fechadia) {
+
+
+		$precio_regular 	=	0;
+		$fechadia 			= 	date_format(date_create($fechadia), 'Y-m-d');
+
+
+		$precio_producto 			= 	CMPOrden::join('CMP.DETALLE_PRODUCTO', 'CMP.ORDEN.COD_ORDEN', '=', 'CMP.DETALLE_PRODUCTO.COD_TABLA')
+												->where('CMP.ORDEN.COD_CATEGORIA_TIPO_ORDEN','=','TOR0000000000024')
+												->where('CMP.ORDEN.fec_orden','=',$fechadia)
+												->where('CMP.ORDEN.COD_EMPR','=',Session::get('empresas')->COD_EMPR)
+												->where('CMP.ORDEN.COD_CENTRO','=',Session::get('centros')->COD_CENTRO)
+												->where('CMP.ORDEN.COD_CONTRATO','=',$cliente->COD_CONTRATO)
+												->where('CMP.DETALLE_PRODUCTO.COD_PRODUCTO','=',$producto->producto_id)
+												->first();
+
+		if(count($precio_producto)){
+			$precio_regular 	=	$precio_producto->CAN_PRECIO_UNIT;
+		}
+
+		return $precio_regular;
+	 			
+	}
+
+
+
+
 
 
 	public function combo_jefe_ventas() {
@@ -68,6 +99,57 @@ class Funcion{
 
 	 	return   $lista_precio_departamento;				 			
 	}
+
+
+
+
+	public function descuento_reglas_producto_fecha($contrato_id,$producto_id,$cliente_id,$departamento_id,$fechadia) {
+
+
+
+		$descuento 						=	0.0000;
+		$fechadia 						= 	date_format(date_create($fechadia), 'Y-m-d');
+									
+
+		//historial de todas las reglas que tenia
+		$lista_reglas_cliente 			= 	WEBReglaProductoCliente::join('WEB.reglas', 'WEB.reglas.id', '=', 'WEB.reglaproductoclientes.regla_id')
+												->where('WEB.reglas.tiporegla','=','POV')
+												->where('WEB.reglas.empresa_id','=',Session::get('empresas')->COD_EMPR)
+												->where('WEB.reglas.centro_id','=',Session::get('centros')->COD_CENTRO)
+												->where('WEB.reglaproductoclientes.contrato_id','=',$contrato_id)
+												->where('WEB.reglaproductoclientes.producto_id','=',$producto_id)
+												->whereNotNull('WEB.reglaproductoclientes.fecha_mod')
+												->select('WEB.reglaproductoclientes.*','WEB.reglas.descuento')
+												->whereRaw('Convert(varchar(10), WEB.reglaproductoclientes.fecha_crea, 120) <= ?', [$fechadia])
+												->whereRaw('Convert(varchar(10), WEB.reglaproductoclientes.fecha_mod, 120) >= ?', [$fechadia])
+												->get();
+
+		foreach($lista_reglas_cliente as $item){
+			$descuento = $descuento + $item->descuento;
+		}
+
+		//ultima regla asignada
+		$lista_reglas_cliente_ultima			= 	WEBReglaProductoCliente::join('WEB.reglas', 'WEB.reglas.id', '=', 'WEB.reglaproductoclientes.regla_id')
+												->where('WEB.reglas.tiporegla','=','POV')
+												->where('WEB.reglas.empresa_id','=',Session::get('empresas')->COD_EMPR)
+												->where('WEB.reglas.centro_id','=',Session::get('centros')->COD_CENTRO)
+												->where('WEB.reglaproductoclientes.contrato_id','=',$contrato_id)
+												->where('WEB.reglaproductoclientes.producto_id','=',$producto_id)
+												->select('WEB.reglaproductoclientes.*','WEB.reglas.descuento')
+												->whereNull('WEB.reglaproductoclientes.fecha_mod')
+												->whereRaw('Convert(varchar(10), WEB.reglaproductoclientes.fecha_crea, 120) <= ?', [$fechadia])
+												->first();
+
+
+		if(count($lista_reglas_cliente_ultima)>0){
+				$descuento = $descuento + $lista_reglas_cliente_ultima->descuento;
+		}									
+
+
+		return $descuento;
+			 			
+	}
+
 
 
 
@@ -257,6 +339,147 @@ class Funcion{
 
 
 
+	public function calculo_precio_regular_fecha($cliente,$producto,$fechadia) {
+
+
+		$precio_regular 	=	0;
+		$fechadia 			= 	date_format(date_create($fechadia), 'Y-m-d');
+
+
+		//existe en esta tabla 
+		$exiteprecio 	=	WEBPrecioProductoContrato::where('contrato_id','=',$cliente->COD_CONTRATO)
+							->where('producto_id','=',$producto->producto_id)
+							->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+							->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+							->first();
+
+
+
+		if(count($exiteprecio)>0){
+
+
+			//existe ingreso de precio en la aplicacion 
+			$primerregistro 	=	WEBPrecioProductoContrato::where('contrato_id','=',$cliente->COD_CONTRATO)
+									->where('producto_id','=',$producto->producto_id)
+									->whereRaw('Convert(varchar(10), fecha_crea, 120) <= ?', [$fechadia])
+									->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+									->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+									->first();
+
+
+			if(count($primerregistro)>0){
+
+
+
+				$precio_regular 	=	$primerregistro->precio;
+				//ultimo precio ingresado
+				$ultimoregistro 	=	WEBPrecioProductoContrato::where('contrato_id','=',$cliente->COD_CONTRATO)
+										->where('producto_id','=',$producto->producto_id)
+							            ->where(function ($query) use($fechadia) {
+							                $query->whereRaw('Convert(varchar(10), fecha_mod, 120) <= ?', [$fechadia])
+							                      ->orwhereNull('fecha_mod');
+							            })
+										//->whereRaw('Convert(varchar(10), fecha_mod, 120) <= ?', [$fechadia])
+										->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+										->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+										->first();
+
+
+
+				if(count($ultimoregistro)>0){
+					$precio_regular 	=	$ultimoregistro->precio;
+				}else{
+
+
+
+					//fecha anterior
+					$preciohistorico 	=	WEBPrecioProductoContratoHistorial::where('contrato_id','=',$cliente->COD_CONTRATO)
+											->where('producto_id','=',$producto->producto_id)
+											->whereRaw('Convert(varchar(10), fecha_crea, 120) < ?', [$fechadia])
+											->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+											->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+											->orderBy('fecha_crea', 'desc')
+											->first();
+
+					//return count($preciohistorico);
+					//precio historico
+					$preciohistoricoreal 	=	WEBPrecioProductoContratoHistorial::where('contrato_id','=',$cliente->COD_CONTRATO)
+											->where('producto_id','=',$producto->producto_id)
+											->whereRaw('Convert(varchar(10), fecha_crea, 120) > ?', [$preciohistorico->fecha_crea])
+											->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+											->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+											->orderBy('fecha_crea', 'asc')
+											->first();
+
+					$precio_regular 	=	$preciohistoricoreal->precio;
+
+				}
+			}
+		}else{
+
+
+			//existe ingreso de precio en la aplicacion 
+			$primerregistro 	=	WEBPrecioProducto::where('producto_id','=',$producto->producto_id)
+									->whereRaw('Convert(varchar(10), fecha_crea, 120) <= ?', [$fechadia])
+									->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+									->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+									->first();
+
+			if(count($primerregistro)>0){
+
+
+
+				$precio_regular 	=	$primerregistro->precio;
+				//ultimo precio ingresado
+				$ultimoregistro 	=	WEBPrecioProducto::where('producto_id','=',$producto->producto_id)
+							            ->where(function ($query) use($fechadia) {
+							                $query->whereRaw('Convert(varchar(10), fecha_mod, 120) <= ?', [$fechadia])
+							                      ->orwhereNull('fecha_mod');
+							            })
+										->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+										->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+										->first();
+
+				if(count($ultimoregistro)>0){
+					$precio_regular 	=	$ultimoregistro->precio;
+				}else{
+
+					//fecha anterior
+					$preciohistorico 	=	WEBPrecioProductoHistorial::where('producto_id','=',$producto->producto_id)
+											->whereRaw('Convert(varchar(10), fecha_crea, 120) < ?', [$fechadia])
+											->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+											->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+											->orderBy('fecha_crea', 'desc')
+											->first();
+
+
+					//precio historico
+					$preciohistoricoreal 	=	WEBPrecioProductoHistorial::where('producto_id','=',$producto->producto_id)
+											->whereRaw('Convert(varchar(10), fecha_crea, 120) > ?', [$preciohistorico->fecha_crea])
+											->where('empresa_id','=',Session::get('empresas')->COD_EMPR)
+											->where('centro_id','=',Session::get('centros')->COD_CENTRO)
+											->orderBy('fecha_crea', 'asc')
+											->first();
+
+					$precio_regular 	=	$preciohistoricoreal->precio;
+
+				}
+
+			}
+
+
+
+		}
+
+
+
+
+	    							
+		return $precio_regular;
+	 			
+	}
+
+
 	public function calculo_precio_regular($cliente,$producto) {
 
 
@@ -275,6 +498,19 @@ class Funcion{
 	 			
 	}
 
+
+
+	public function combo_clientes_cuenta_seleccionada($cuenta_id) {
+
+		$listaclientes   		=	WEBListaCliente::where('COD_EMPR','=',Session::get('empresas')->COD_EMPR)
+					    			->where('COD_CENTRO','=',Session::get('centros')->COD_CENTRO)
+					    			->where('COD_CONTRATO','=',$cuenta_id)
+									->pluck('NOM_EMPR','COD_CONTRATO')
+									->toArray();
+
+		$combolistaclientes  	= 	$listaclientes;
+		return $combolistaclientes;		 			
+	}
 
 	public function combo_clientes_cuenta() {
 
@@ -371,7 +607,7 @@ class Funcion{
 
 	public function tipo_cambio() {
 		
-		$tipocambio 		= 		DB::table('WEB.VIEWTIPOCAMBIO')
+		$tipocambio 		= 		DB::table('WEB.TIPOCAMBIO')
         							->where('FEC_CAMBIO','<=',date('d/m/Y'))
         							->orderBy('FEC_CAMBIO', 'desc')
         							->first();
